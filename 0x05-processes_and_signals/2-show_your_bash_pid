@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# this displays lines containing the bash word
+# shellcheck display=SC2009
+
+ps -aux | grep bash
