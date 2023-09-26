@@ -1,0 +1,17 @@
+#!/bin/env bash
+
+# Update Nginx configuration to perform a 301 redirection
+echo "server {
+    listen 80;
+    server_name _;
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+}" | sudo tee /etc/nginx/sites-available/redirect_me > /dev/null
+
+# Create a symbolic link to enable the site
+sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
+
+# Test Nginx configuration and restart the server
+sudo nginx -t && sudo systemctl restart nginx
+
