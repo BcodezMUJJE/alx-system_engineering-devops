@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+# Check if both domain and subdomain parameters are provided
+if [ $# -lt 1 ]; then
+    echo "Usage: $0 <domain> [<subdomain>]"
+    exit 1
+fi
+
+# Domain to audit
+domain="$1"
+
+# Subdomain to audit (default to empty if not provided)
+subdomain="${2:-}"
+
+# Define an associative array to map subdomains to their IPs
+declare -A subdomain_ips=(
+    ["www"]="54.210.47.110"
+    ["lb-01"]="54.210.47.110"
+    ["web-01"]="34.198.248.145"
+    ["web-02"]="54.89.38.100"
+)
+
+# Function to print information for a subdomain
+print_subdomain_info() {
+    local subdomain="$1"
+    local ip="${subdomain_ips[$subdomain]}"
+
+    if [ -n "$ip" ]; then
+        echo "The subdomain $subdomain is a A record and points to $ip"
+    else
+        echo "The subdomain $subdomain does not exist or is not configured."
+    fi
+}
+
+# If subdomain is not specified, print information for all subdomains
+if [ -z "$subdomain" ]; then
+    for sub in "${!subdomain_ips[@]}"; do
+        print_subdomain_info "$sub"
+    done
+else
+    # Print information for the specified subdomain
+    print_subdomain_info "$subdomain"
+fi
