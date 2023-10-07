@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
-
 # Install nginx on web server; Nginx should be listening on port 80
 # Update the package list and install nginx
 
 sudo apt-get -y update
 sudo apt-get -y install nginx
 sudo service nginx start
-
 # Create a custom index.html file
 
 echo "Hello World!\n" | sudo tee /var/www/html/index.html
