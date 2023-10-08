@@ -1,17 +1,22 @@
-#!/bin/env bash
+#!/usr/bin/env bash
+# A script that redirects the user to moved permenantly
 
-# Update Nginx configuration to perform a 301 redirection
-echo "server {
-    listen 80;
-    server_name _;
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
-}" | sudo tee /etc/nginx/sites-available/redirect_me > /dev/null
+# Update the package list
+sudo apt-get -y update
 
-# Create a symbolic link to enable the site
-sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
+# Install Nginx
+sudo apt-get -y install nginx
 
-# Test Nginx configuration and restart the server
-sudo nginx -t && sudo systemctl restart nginx
+# Allow HTTP traffic in the firewall (assuming you have UFW configured)
+sudo ufw allow 'Nginx HTTP'
 
+# Create an HTML file with the desired content
+echo "Uganda_Is" | sudo tee /var/www/html/index.html
+
+# Edit the Nginx default site configuration to add the redirect rule
+sudo sed -i '/listen 80 default_server;/a rewrite ^/redirect_me 
+https://www.youtube.com/watch?v=QH2-TGUlwu4/
+ permanent;' /etc/nginx/sites-available/default
+
+# Restart Nginx to apply the changes
+sudo service nginx restart 
