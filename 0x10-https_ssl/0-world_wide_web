@@ -14,10 +14,10 @@ subdomain="${2:-}"
 
 # Define an associative array to map subdomains to their IPs
 declare -A subdomain_ips=(
-    ["www"]="54.210.47.110"
-    ["lb-01"]="54.210.47.110"
-    ["web-01"]="34.198.248.145"
-    ["web-02"]="54.89.38.100"
+    ["www"]="billbright.tech"
+    ["lb-01"]="3.85.41.213"
+    ["web-01"]="54.237.210.116"
+    ["web-02"]="34.229.49.26"
 )
 
 # Function to print information for a subdomain
